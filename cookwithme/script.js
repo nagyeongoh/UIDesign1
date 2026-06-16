@@ -419,9 +419,17 @@ function getObjectLine(obj) {
   return lines[Math.floor(Math.random() * lines.length)];
 }
 
+function positionObjectByRatio(obj) {
+  const x = Number(obj.dataset.xRatio) * stage.clientWidth;
+  const y = Number(obj.dataset.yRatio) * stage.clientHeight;
+
+  obj.style.left = x - 70 + "px";
+  obj.style.top = y - 70 + "px";
+}
 
 function createObjectAt(x, y, data) {
   const food = FOODS.find(item => item.name === data.icon);
+  if (!food) return;
 
   const obj = document.createElement("div");
   obj.className = "object";
@@ -431,22 +439,18 @@ function createObjectAt(x, y, data) {
   obj.dataset.createdAt = data.createdAt;
   obj.dataset.dueDate = data.dueDate;
 
-  obj.style.left = x - 50 + "px";
-  obj.style.top = y - 50 + "px";
+  obj.dataset.xRatio = x / stage.clientWidth;
+  obj.dataset.yRatio = y / stage.clientHeight;
 
   obj.innerHTML = `
-    <img
-      class="object-image"
-      src="${food.image}"
-      alt="${food.name}"
-    >
-
+    <img class="object-image" src="${food.image}" alt="${food.name}">
     <div class="object-info">
       ${getRelativeDateText(data.createdAt)}
     </div>
   `;
 
   stage.appendChild(obj);
+  positionObjectByRatio(obj);
   makeObjectDraggable(obj);
   objects.push(obj);
   saveObjects();
@@ -473,15 +477,23 @@ function makeObjectDraggable(obj) {
     obj.style.top = event.clientY - obj.offsetHeight / 2 + "px";
   });
 
-  document.addEventListener("mouseup", () => {
-    clearTimeout(pressTimer);
+document.addEventListener("mouseup", () => {
+  clearTimeout(pressTimer);
 
-    if (isDragging) {
-      isDragging = false;
-      obj.classList.remove("dragging");
-      saveObjects();
-    }
-  });
+  if (isDragging) {
+    isDragging = false;
+    obj.classList.remove("dragging");
+
+    const rect = obj.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    obj.dataset.xRatio = centerX / stage.clientWidth;
+    obj.dataset.yRatio = centerY / stage.clientHeight;
+
+    saveObjects();
+  }
+});
 
   obj.addEventListener("dblclick", (event) => {
   event.stopPropagation();
@@ -502,8 +514,8 @@ function saveObjects() {
     icon: obj.dataset.name,
     createdAt: obj.dataset.createdAt,
     dueDate: obj.dataset.dueDate,
-    x: parseFloat(obj.style.left),
-    y: parseFloat(obj.style.top)
+    xRatio: Number(obj.dataset.xRatio),
+    yRatio: Number(obj.dataset.yRatio)
   }));
 
   localStorage.setItem(
@@ -514,21 +526,53 @@ function saveObjects() {
 
 function loadObjects() {
   const saved = localStorage.getItem("myObjects");
-
   if (!saved) return;
 
   const savedObjects = JSON.parse(saved);
 
   savedObjects.forEach(data => {
-    createObjectAt(data.x + 50, data.y + 50, data);
+    createObjectFromSavedData(data);
   });
 }
+
+function createObjectFromSavedData(data) {
+  const food = FOODS.find(item => item.name === data.icon);
+  if (!food) return;
+
+  const obj = document.createElement("div");
+  obj.className = "object";
+
+  obj.dataset.id = data.id || crypto.randomUUID();
+  obj.dataset.name = data.icon;
+  obj.dataset.createdAt = data.createdAt;
+  obj.dataset.dueDate = data.dueDate;
+  obj.dataset.xRatio = data.xRatio;
+  obj.dataset.yRatio = data.yRatio;
+
+  obj.innerHTML = `
+    <img class="object-image" src="${food.image}" alt="${food.name}">
+    <div class="object-info">
+      ${getRelativeDateText(data.createdAt)}
+    </div>
+  `;
+
+  stage.appendChild(obj);
+  makeObjectDraggable(obj);
+  objects.push(obj);
+
+  positionObjectByRatio(obj);
+}
+
+window.addEventListener("resize", () => {
+  objects.forEach(positionObjectByRatio);
+  updateCharacterPositions();
+});
 
 /* -------------------- */
 /* 캐릭터 */
 /* -------------------- */
 
-function createCharacter(x, floorY, imageIndex) {
+function createCharacter(xRatio, yRatio, imageIndex) {
   const el = document.createElement("div");
   el.className = "character";
 
@@ -548,8 +592,10 @@ function createCharacter(x, floorY, imageIndex) {
 
   const character = {
     el,
-    x,
-    y: floorY,
+    xRatio,
+    yRatio,
+    x: xRatio * stage.clientWidth,
+    y: yRatio * stage.clientHeight,
     vx,
     image,
     stoppedUntil: 0,
@@ -559,26 +605,32 @@ function createCharacter(x, floorY, imageIndex) {
   characters.push(character);
 }
 
-// 1층
-createCharacter(50, 68, 0);
-createCharacter(250, 68, 1);
-createCharacter(450, 68, 2);
+function updateCharacterPositions() {
+  characters.forEach(char => {
+    char.x = char.xRatio * stage.clientWidth;
+    char.y = char.yRatio * stage.clientHeight;
 
+    char.el.style.left = char.x + "px";
+    char.el.style.top = char.y + "px";
+  });
+}
 
+// 1층: y 68 기준
+createCharacter(0.12, 0.09, 0);
+createCharacter(0.45, 0.09, 1);
+createCharacter(0.78, 0.09, 2);
 
-// 2층
-createCharacter(100, 250, 1);
-createCharacter(300, 250, 0);
+// 2층: y 250 기준
+createCharacter(0.16, 0.33, 1);
+createCharacter(0.50, 0.33, 0);
+createCharacter(0.82, 0.33, 2);
 
-createCharacter(700, 250, 2);
+// 3층: y 450 기준
+createCharacter(0.12, 0.59, 2);
+createCharacter(0.45, 0.59, 0);
+createCharacter(0.78, 0.59, 1);
 
-
-// 3층
-createCharacter(50, 450, 2);
-
-createCharacter(450, 450, 0);
-createCharacter(650, 450, 1);
-
+updateCharacterPositions();
 
 /* -------------------- */
 /* 시작 문 */
@@ -805,7 +857,7 @@ function animate() {
 
       if (
             char.x < 0 ||
-            char.x > window.innerWidth - 36
+            char.x > window.innerWidth - 48
           ) {
             char.vx *= -1;
 
