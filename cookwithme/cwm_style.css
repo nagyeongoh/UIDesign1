@@ -1,0 +1,294 @@
+/* ===================================
+   HOME PAGE!!
+=================================== */
+
+.home-page{
+    width:100%;
+    min-height:100vh;
+    background:#efefef;
+}
+
+/* menu options */
+
+.opt-row{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin-top:60px;
+}
+
+.opt{
+    width:80px;
+    height:80px;
+
+    font-size:40px;
+
+    border:none;
+    background:transparent;
+
+    cursor:pointer;
+
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.opt.active{
+    filter: brightness(0.5);
+    transform: scale(0.9);
+}
+
+/* main content */
+
+.main-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    gap:85px;
+
+    margin-top:195px;
+}
+
+/* menu image */
+
+.menu-box{
+    width:540px;
+    height:305px;
+
+    background:none;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:180px;
+    text-decoration:none;
+    color:black;
+}
+
+/* Timer */
+
+.timer-box{
+    width:190px;
+    height:305px;
+
+    background:#b6e5ef;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    gap:18px;
+}
+
+.timer-title{
+    font-size:32px;
+    margin-bottom:15px;
+}
+
+.timer-box input{
+    width:90px;
+    padding:10px;
+
+    border:none;
+    text-align:center;
+}
+
+/* Calendar */
+
+.calendar-box{
+    width:135px;
+    height:305px;
+
+    background:none;
+
+    text-decoration:none;
+    color:black;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:90px;
+}
+
+/* ==========================
+   CALENDAR PAGE
+========================== */
+
+.calendar-page{
+    width:100%;
+    min-height:100vh;
+    background:#efefef;
+}
+
+/* Top Area */
+
+.top-bar{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:60px;
+
+    padding-top:40px;
+}
+
+.month-title{
+    font-size:7rem;
+    font-family:"Times New Roman", serif;
+    font-weight:bold;
+    margin:0;
+}
+
+/* Photo Button */
+
+.photo-btn{
+    width:90px;
+    height:90px;
+
+    background:none;
+
+    text-decoration:none;
+    color:black;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:40px;
+}
+
+/* Main Layout */
+
+.calendar-layout{
+    display:flex;
+    align-items:flex-start;
+
+    margin-top:30px;
+}
+
+/* Home Button */
+
+.home-btn{
+    width:140px;
+    height:310px;
+
+    background:none;
+
+    text-decoration:none;
+    color:black;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:80px;
+
+    margin-top:130px;
+}
+
+/* Calendar Area */
+
+.calendar-container{
+    flex:1;
+
+    display:flex;
+    justify-content:center;
+}
+
+/* Large Grey Box */
+
+.calendar-placeholder{
+    width:1070px;
+    height:720px;
+
+    background:#d2d2d2;
+}
+
+/* ==========================
+   RECIPE PAGE
+========================== */
+
+.recipe-page{
+    width:100%;
+    min-height:100vh;
+    background:#efefef;
+}
+
+/* Top Area */
+
+.top-bar{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:60px;
+
+    padding-top:40px;
+}
+
+
+/* Start Button */
+
+.start-btn{
+    width:90px;
+    height:90px;
+
+    background:none;
+
+    text-decoration:none;
+    color:black;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:100px;
+}
+
+/* Main Layout */
+
+.recipe-layout{
+    display:flex;
+    align-items:flex-start;
+
+    margin-top:30px;
+}
+
+/* Back Button */
+
+.back-btn{
+    width:140px;
+    height:310px;
+
+    background:none;
+
+    text-decoration:none;
+    color:black;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:80px;
+
+    margin:20px;
+}
+
+/* Calendar Area */
+
+.calendar-container{
+    flex:1;
+
+    display:flex;
+    justify-content:center;
+}
+
+/* Large Grey Box */
+
+.calendar-placeholder{
+    width:1070px;
+    height:720px;
+
+    background:#d2d2d2;
+}
+
