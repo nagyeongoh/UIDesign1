@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>작은 캐릭터들의 방</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="intro-door">
+    <div class="door slide-door">
+      <div class="handle"></div>
+    </div>
+  </div>
+
+  <div id="stage">
+    <button id="open-modal" aria-label="Add food"></button>
+
+    <div class="floor one"></div>
+    <div class="floor two"></div>
+    <div class="floor three"></div>
+
+    <div class="dialog" id="dialog"></div>
+    
+
+    <div id="object-modal" class="modal">
+  <div class="modal-content food-modal">
+
+    <button id="cancel-modal" class="modal-close">X</button>
+
+    <div class="food-gallery">
+      <button id="prev-food" class="gallery-arrow left">‹</button>
+
+      <div id="food-grid" class="food-grid"></div>
+
+      <button id="next-food" class="gallery-arrow right">›</button>
+    </div>
+
+  <div class="modal-bottom">
+
+    <div class="date-field">
+      <label>Stored On</label>
+      <input id="modal-date" type="date">
+    </div>
+
+    <div class="date-field">
+      <label>Best Before</label>
+      <input id="modal-due-date" type="date">
+    </div>
+
+    <button id="choose-place" class="add-place-button">
+      +
+    </button>
+
+  </div>
+
+      </div>
+    </div>
+
+    <div id="place-guide">
+      원하는 위치를 클릭해서 물체를 놓으세요
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
