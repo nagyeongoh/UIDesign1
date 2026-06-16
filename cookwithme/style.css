@@ -1,0 +1,373 @@
+body {
+  margin: 0;
+   background-image: url("images/background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+#stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* 층 */
+
+.floor {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 0px;
+  background: rgba(0,0,0,0.15);
+}
+
+.floor.one   { top: 180px; }
+.floor.two   { top: 420px; }
+.floor.three { top: 660px; }
+
+/* 캐릭터 */
+
+.character {
+  position: absolute;
+  width: 48px;
+  height: 80px;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  z-index: 20;
+}
+
+.character.facing-left {
+  transform: scaleX(-1);
+}
+
+/* 물체 */
+
+.object {
+  position: absolute;
+  width: 100px;
+  min-height: 100px;
+
+  background: transparent;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+  text-align: center;
+
+  cursor: grab;
+  z-index: 10;
+  }
+
+
+
+.object.dragging {
+  opacity: 0.75;
+  transform: scale(1.05);
+  z-index: 100;
+  cursor: grabbing;
+}
+
+.object-image {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.object-info {
+  font-size: 11px;
+  color: #555;
+  background: rgba(255,255,255,0.75);
+  border-radius: 999px;
+  padding: 2px 6px;
+}
+
+/* 말풍선 */
+
+.dialog {
+  position: absolute;
+
+  padding: 8px 12px;
+
+  background: white;
+
+  border-radius: 14px;
+  border: 1px solid #333;
+
+  font-size: 14px;
+
+  white-space: nowrap;
+
+  display: none;
+
+  pointer-events: none;
+
+  z-index: 30;
+}
+
+.dialog.old {
+  background: #fff3a0;
+  border-color: #d4b000;
+}
+
+.dialog.expired {
+  background: #ffb5b5;
+  border-color: #d84c4c;
+}
+
+/* 시작 문 */
+
+#intro-door {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.slide-door {
+  position: absolute;
+  inset: 0;
+
+  background-image: url("images/door.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  transition:
+    transform 2.4s cubic-bezier(.2,.8,.2,1);
+}
+
+.handle {
+  display: none;
+}
+
+/* 추가 버튼 */
+
+#open-modal {
+  position: fixed;
+
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom) + 18px);
+
+  transform: translateX(-50%);
+
+  width: min(420px, 82vw);
+  height: 76px;
+
+  border: none;
+
+  background-image: url("images/add-button.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* 모달 */
+
+.modal {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 5000;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.food-modal {
+  background: white;
+  position: relative;
+  width: min(900px, 90vw);
+  height: min(560px, 80dvh);
+  border: 1px solid #333;
+  border-radius: 0;
+  padding: 48px 56px 40px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-close {
+  position: absolute;
+  left: -18px;
+  top: -18px;
+
+  width: 52px;
+  height: 52px;
+
+  border: none;
+  background: url("images/close.png") center / contain no-repeat;
+  cursor: pointer;
+
+  font-size: 0;
+}
+
+.food-gallery {
+  position: relative;
+  flex: 1;
+}
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 32px;
+
+  padding: 10px 0 40px;
+}
+
+.food-card {
+  height: 110px;
+
+  background: #d9d9d9;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.food-card img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.food-card span {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.food-card.selected {
+  outline: 4px solid #333;
+  background: #c8b6ff;
+}
+
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  border: none;
+  background: transparent;
+
+  font-size: 72px;
+  color: #d0d0d0;
+
+  cursor: pointer;
+}
+
+.gallery-arrow.left {
+  left: -42px;
+}
+
+.gallery-arrow.right {
+  right: -42px;
+}
+
+.modal-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr 96px;
+  gap: 36px;
+  align-items: center;
+}
+
+.modal-bottom input {
+  height: 56px;
+  border: 1px solid #333;
+  text-align: center;
+  font-size: 16px;
+}
+
+.add-place-button {
+  width: 84px;
+  height: 84px;
+
+  border: none;
+  background: url("images/plus.png") center / contain no-repeat;
+  cursor: pointer;
+
+  font-size: 0;
+}
+
+.date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+}
+
+/* 위치 선택 안내 */
+
+#place-guide {
+  position: fixed;
+
+  left: 50%;
+  bottom: 30px;
+
+  transform: translateX(-50%);
+
+  background: white;
+
+  border: 1px solid #333;
+  border-radius: 999px;
+
+  padding: 10px 18px;
+
+  display: none;
+
+  z-index: 2000;
+}
+
+#place-guide.show {
+  display: block;
+}
+
+.preview-object img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+}
+
+.preview-object {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+  z-index: 3000;
+}
