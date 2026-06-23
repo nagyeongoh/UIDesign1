@@ -24,7 +24,7 @@ body {
   background: rgba(0,0,0,0.15);
 }
 
-.floor.one   { top: 180px; }
+.floor.one   { top: 100px; }
 .floor.two   { top: 420px; }
 .floor.three { top: 660px; }
 
@@ -50,8 +50,8 @@ body {
 
 .object {
   position: absolute;
-  width: 100px;
-  min-height: 100px;
+  width: 180px;
+  min-height: 180px;
 
   background: transparent;
 
@@ -77,8 +77,8 @@ body {
 }
 
 .object-image {
-  width: 76px;
-  height: 76px;
+  width: 140px;
+  height: 140px;
   object-fit: contain;
   pointer-events: none;
 }
@@ -173,6 +173,33 @@ body {
 
   cursor: pointer;
   z-index: 1000;
+}
+
+#trash-zone {
+  position: fixed;
+
+  left: 20px;
+  bottom: calc(env(safe-area-inset-bottom) + 20px);
+
+  width: 300px;
+  height: 300px;
+
+  background-image: url("images/trash.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition: opacity 0.2s;
+
+  z-index: 1200;
+}
+
+#trash-zone.show {
+  opacity: 1;
 }
 
 /* 모달 */
@@ -354,15 +381,15 @@ body {
 }
 
 .preview-object img {
-  width: 76px;
-  height: 76px;
+  width: 180px;
+  height: 180px;
   object-fit: contain;
 }
 
 .preview-object {
   position: fixed;
-  width: 100px;
-  height: 100px;
+  width: 140px;
+  height: 140px;
 
   display: flex;
   align-items: center;
