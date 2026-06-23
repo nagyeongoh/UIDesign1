@@ -1,50 +1,287 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <title>nagyeongoh</title>
-  <link rel="stylesheet" type="text/css" href="assets/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slow Waves</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(#86c8ff, #eaf8ff);
+    }
+
+    .land {
+      position: absolute;
+      bottom: 53vh;
+      left: 0;
+      width: 100%;
+      height: 14vh;
+      z-index: 2;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .land svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .shape-layer {
+  position: absolute;
+  left: 0;
+  bottom: 47vh;
+  width: 100%;
+  height: 28vh;
+  z-index: 4;
+}
+
+.object {
+  position: absolute;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.object img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.object:hover {
+  transform: scale(1.08) rotate(5deg);
+}
+
+/* 개별 위치 */
+
+.object:nth-child(1) {
+  left: 8vw;
+  bottom: 2vh;
+  width: 220px;
+}
+
+.object:nth-child(2) {
+  left: 42vw;
+  bottom: 3vh;
+  width: 180px;
+}
+
+.object:nth-child(3) {
+  right: 16vw;
+  bottom: 3vh;
+  width: 180px;
+}
+
+    .typewriter {
+        position: absolute;
+        right: 8vw;
+        bottom: 12vh;
+        z-index: 4;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: clamp(18px, 2vw, 32px);
+        font-family: "Rockwell", sans-serif;
+        letter-spacing: 0.04em;
+      }
+
+      .typewriter span::before {
+        content: "";
+        animation: typingText 12s infinite;
+      }
+
+      .typewriter span::after {
+        content: "|";
+        margin-left: 4px;
+        animation: cursorBlink 0.8s infinite;
+      }
+
+      @keyframes cursorBlink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+    .ocean {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 55vh;
+      background: linear-gradient(#3aa7d8, #005f99);
+      overflow: hidden;
+      z-index: 3;
+      }
+
+    .wave {
+      position: absolute;
+      top: -80px;
+      left: -50%;
+      width: 200%;
+      height: 180px;
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 45%;
+      animation: drift 8s ease-in-out infinite;
+    }
+
+    .wave:nth-child(2) {
+      top: -45px;
+      opacity: 0.45;
+      animation-duration: 10s;
+      animation-direction: reverse;
+    }
+
+    .wave:nth-child(3) {
+      top: -10px;
+      opacity: 0.25;
+      animation-duration: 18s;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateX(8%) translateY(18px) rotate(2deg);
+      }
+      100% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+      }
+    }
+
+    .sunlight {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 5%, rgba(255,255,255,0.55), transparent 35%);
+      pointer-events: none;
+    }
+  </style>
 </head>
 
 <body>
-  <div id="grid">
-    <div id="left-column" class="scroll">
+  <div class="sunlight"></div>
+  <div class="land">
+    <svg viewBox="0 0 1600 180" preserveAspectRatio="none">
+      <path
+        fill="#3B2F2F"
+        d="
+        M0 120
+        C60 95, 140 70, 220 80
+        C300 90, 340 120, 420 130
 
-      <h1>nagyeongoh</h1>
+        C520 135, 600 115, 700 125
+        C800 135, 880 105, 980 115
 
-      <p class="desc">A short paragraph about you...</p>
+        C1080 125, 1180 115, 1280 105
+        C1380 85, 1480 75, 1540 95
+        C1580 110, 1600 118, 1600 118
 
-      <ul>
-        <li>My favorite food is dumplings</li>
+        L1600 180
+        L0 180
+        Z"
+      />
+    </svg>
+  </div>
 
-        <li>
-          My favorite song is
-          <a href="https://youtu.be/wBEesrdaRog?si=wqhB9oOTHdSfH0ax">
-            Waters of March (Águas de Março)
-          </a>
-        </li>
+<div class="shape-layer">
 
-        <li>
-          My favorite website is
-          <a href="https://artsandculture.google.com">
-            Google Arts & Culture
-          </a>
-        </li>
-      </ul>
+  <a href="circle.html" class="object">
+    <img src="images/circle.png" alt="">
+  </a>
 
-      <h3>Exercises</h3>
+  <a href="triangle.html" class="object">
+    <img src="images/triangle.png" alt="">
+  </a>
 
-      <ul>
-        <li>
-          <a href="ascii/exterior-nagyeongoh.html">ASCII Town</a>
-        </li>
+  <a href="square.html" class="object">
+    <img src="images/square.png" alt="">
+  </a>
 
-        <li>
-          <a href="cookwithme/fridge.html">Fridgies</a>
-        </li>
-      </ul>
+</div>
 
+  <div class="ocean">
+    <div class="typewriter">
+      <span></span>
     </div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
   </div>
 </body>
 </html>
+
+<script>
+  const texts = [
+    "Hi I'm Na Gyeong",
+    "My favorite is",
+    "And then..."
+  ];
+
+  const target = document.querySelector(".typewriter span");
+
+  let textIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
+
+  function typeLoop() {
+    const currentText = texts[textIndex];
+
+    if (!deleting) {
+      target.textContent = currentText.slice(0, charIndex + 1);
+      charIndex++;
+
+      if (charIndex === currentText.length) {
+        deleting = true;
+        setTimeout(typeLoop, 1600);
+        return;
+      }
+    } else {
+      target.textContent = currentText.slice(0, charIndex - 1);
+      charIndex--;
+
+      if (charIndex === 0) {
+        deleting = false;
+        textIndex = (textIndex + 1) % texts.length;
+      }
+    }
+
+    const speed = deleting ? 55 : 110;
+    setTimeout(typeLoop, speed);
+  }
+
+  typeLoop();
+
+  const objects = document.querySelectorAll(".object");
+
+document.addEventListener("mousemove", e => {
+
+  objects.forEach(obj => {
+
+    const rect = obj.getBoundingClientRect();
+
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < 250) {
+
+      const strength = 1 - distance / 250;
+
+      obj.style.transform =
+        `scale(${1 + strength * 0.1})
+         rotate(${strength * 8}deg)`;
+
+    } else {
+
+      obj.style.transform =
+        `scale(1) rotate(0deg)`;
+
+    }
+
+  });
+
+});
+</script>
