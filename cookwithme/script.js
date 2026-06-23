@@ -1,5 +1,7 @@
 const stage = document.getElementById("stage");
 const dialog = document.getElementById("dialog");
+const trashZone =
+  document.getElementById("trash-zone");
 
 const FOODS = [
   {
@@ -423,8 +425,8 @@ function positionObjectByRatio(obj) {
   const x = Number(obj.dataset.xRatio) * stage.clientWidth;
   const y = Number(obj.dataset.yRatio) * stage.clientHeight;
 
-  obj.style.left = x - 70 + "px";
-  obj.style.top = y - 70 + "px";
+  obj.style.left = x - 90 + "px";
+  obj.style.top = y - 90 + "px";
 }
 
 function createObjectAt(x, y, data) {
@@ -465,9 +467,11 @@ function makeObjectDraggable(obj) {
     event.stopPropagation();
 
     pressTimer = setTimeout(() => {
-      isDragging = true;
-      obj.classList.add("dragging");
-    }, 500);
+  isDragging = true;
+  obj.classList.add("dragging");
+
+  trashZone.classList.add("show");
+}, 500);
   });
 
   document.addEventListener("mousemove", (event) => {
@@ -481,17 +485,53 @@ document.addEventListener("mouseup", () => {
   clearTimeout(pressTimer);
 
   if (isDragging) {
+
+    const objRect =
+      obj.getBoundingClientRect();
+
+    const trashRect =
+      trashZone.getBoundingClientRect();
+
+    const isOverTrash =
+      !(
+        objRect.right < trashRect.left ||
+        objRect.left > trashRect.right ||
+        objRect.bottom < trashRect.top ||
+        objRect.top > trashRect.bottom
+      );
+
+    if (isOverTrash) {
+
+      objects =
+        objects.filter(item => item !== obj);
+
+      obj.remove();
+
+      saveObjects();
+
+    } else {
+
+      const centerX =
+        objRect.left +
+        objRect.width / 2;
+
+      const centerY =
+        objRect.top +
+        objRect.height / 2;
+
+      obj.dataset.xRatio =
+        centerX / stage.clientWidth;
+
+      obj.dataset.yRatio =
+        centerY / stage.clientHeight;
+
+      saveObjects();
+    }
+
     isDragging = false;
     obj.classList.remove("dragging");
 
-    const rect = obj.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    obj.dataset.xRatio = centerX / stage.clientWidth;
-    obj.dataset.yRatio = centerY / stage.clientHeight;
-
-    saveObjects();
+    trashZone.classList.remove("show");
   }
 });
 
@@ -818,8 +858,8 @@ function removePreviewObject() {
 document.addEventListener("mousemove", (event) => {
   if (!isPlacingObject || !previewObject) return;
 
-  previewObject.style.left = event.clientX - 50 + "px";
-  previewObject.style.top = event.clientY - 50 + "px";
+  previewObject.style.left = event.clientX - 90 + "px";
+  previewObject.style.top = event.clientY - 90 + "px";
 });
 
 
