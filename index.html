@@ -31,16 +31,22 @@
 
     .shape-layer {
   position: absolute;
-  left: 0;
   bottom: 47vh;
   width: 100%;
   height: 28vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 5vw;
+
   z-index: 4;
 }
 
 .object {
-  position: absolute;
+  position: relative;
   display: block;
+
   transition: transform 0.4s ease;
 }
 
@@ -50,37 +56,29 @@
   height: auto;
 }
 
-
-/* 개별 위치 */
-
 .object:nth-child(1) {
-  left: 8vw;
-  bottom: 2vh;
   width: 220px;
+  margin-bottom: 0vh;
 }
 
 .object:nth-child(2) {
-  left: 24vw;
-  bottom: 4vh;
-  width: 170px;
+  width: 180px;
+  margin-bottom: 2vh;
 }
 
 .object:nth-child(3) {
-  left: 40vw;
-  bottom: 1vh;
-  width: 190px;
+  width: 180px;
+  margin-bottom: 0vh;
 }
 
 .object:nth-child(4) {
-  left: 58vw;
-  bottom: 5vh;
-  width: 170px;
+  width: 180px;
+  margin-bottom: 3vh;
 }
 
 .object:nth-child(5) {
-  left: 74vw;
-  bottom: 2vh;
   width: 180px;
+  margin-bottom: 1vh;
 }
 
     .typewriter {
