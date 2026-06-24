@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>index</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      background: #000;
+    }
+
+    #clock {
+      position: relative;
+      width: 1080px;
+      height: 1980px;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 38px;
+      padding-bottom: 30px;
+      z-index: 1;
+    }
+
+    .walk {
+  position: relative;
+  background: #000;
+  clip-path: polygon(
+    6% 0,
+    94% 0,
+    100% 100%,
+    0 100%
+  );
+  overflow: hidden;
+}
+
+.fill {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  clip-path: polygon(
+    6% 0,
+    94% 0,
+    100% 100%,
+    0 100%
+  );
+  background: #fff;
+}
+
+    .icon {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 220px;
+      height: auto;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(0, 0) rotate(0deg);
+      transform-origin: center center;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="clock"></div>
+
+  <script>
+    const clock = document.querySelector("#clock")
+
+    const count = 9
+
+    const widths = [
+      1000,
+      820,
+      660,
+      520,
+      400,
+      300,
+      220,
+      160,
+      120
+    ]
+
+    const heights = [
+      180,
+      150,
+      125,
+      100,
+      80,
+      64,
+      50,
+      40,
+      32
+    ]
+
+    const fills = []
+
+    for (let i = 0; i < count; i++) {
+      const walk = document.createElement("div")
+      walk.className = "walk"
+
+      const fill = document.createElement("div")
+      fill.className = "fill"
+
+      walk.style.width = widths[i] + "px"
+      walk.style.height = heights[i] + "px"
+
+      walk.appendChild(fill)
+      clock.appendChild(walk)
+
+      fills.push(fill)
+    }
+
+    const icons = []
+
+    for (let i = 1; i <= 8; i++) {
+      const img = document.createElement("img")
+      img.src = `${i}.png`
+      img.alt = `icon-${i}`
+      img.className = "icon"
+      document.body.appendChild(img)
+      icons.push(img)
+    }
+
+    function updateClock() {
+      const sec = new Date().getSeconds()
+
+      fills.forEach(fill => {
+        fill.style.backgroundColor = "transparent"
+      })
+
+      if (sec < 10) {
+        document.body.style.backgroundColor = "#000"
+
+        const active = sec
+
+        for (let i = 0; i < active; i++) {
+          fills[i].style.backgroundColor = "#fff"
+        }
+      }
+
+      else if (sec < 15) {
+        const colors = [
+          "rgb(0,0,0)",
+          "rgb(64,64,64)",
+          "rgb(128,128,128)",
+          "rgb(191,191,191)",
+          "rgb(255,255,255)"
+        ]
+
+        document.body.style.backgroundColor = colors[sec - 10]
+
+        fills.forEach(fill => {
+          fill.style.backgroundColor = "#fff"
+        })
+      }
+
+      else if (sec < 55) {
+        document.body.style.backgroundColor = "#fff"
+
+        fills.forEach(fill => {
+          fill.style.backgroundColor = "#fff"
+        })
+      }
+
+      else {
+        const colors = [
+          "rgb(255,255,255)",
+          "rgb(191,191,191)",
+          "rgb(128,128,128)",
+          "rgb(64,64,64)",
+          "rgb(0,0,0)"
+        ]
+
+        const color = colors[sec - 55]
+
+        document.body.style.backgroundColor = color
+
+        fills.forEach(fill => {
+          fill.style.backgroundColor = color
+        })
+      }
+    }
+
+    function moveIcons() {
+      const now = new Date()
+      const secFloat = now.getSeconds() + now.getMilliseconds() / 1000
+
+      const trackWidth = window.innerWidth
+      const trackY = window.innerHeight * 0.5
+
+      icons.forEach((icon, i) => {
+        const start = 15 + i * 5
+        const end = start + 5
+
+        if (secFloat >= start && secFloat < end) {
+          const progress = (secFloat - start) / 5
+          const clamped = Math.max(0, Math.min(1, progress))
+
+          const iconWidth = icon.offsetWidth || 220
+          const iconHeight = icon.offsetHeight || 220
+
+          const x = -iconWidth + clamped * (trackWidth + iconWidth * 2)
+          const rotation = clamped * 720
+
+          icon.style.opacity = "1"
+          icon.style.left = x + "px"
+          icon.style.top = (trackY - iconHeight / 2) + "px"
+          icon.style.transform = `rotate(${rotation}deg)`
+        } else {
+          icon.style.opacity = "0"
+        }
+      })
+
+      requestAnimationFrame(moveIcons)
+    }
+
+    updateClock()
+    setInterval(updateClock, 1000)
+    requestAnimationFrame(moveIcons)
+  </script>
+</body>
+</html>
